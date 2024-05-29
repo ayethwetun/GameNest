@@ -1,1 +1,85 @@
+body {
+    background-color: #2e2e2e;
+    color:white
+}
+
+.game-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.custom-card {
+    background-color: #3a3535;
+    position: relative; 
+    overflow: hidden; 
+}
+
+.custom-card .card-img-top {
+    width: 100%; 
+    height: auto; 
+    object-fit: cover;
+    aspect-ratio: 1;
+}
+
+.game-item {
+    width: calc(25% - 10px);
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.game-title {
+    margin: 0;
+}
+
+.game-price {
+    margin: 0;
+}
+
+.custom-container {
+    text-align: left;
+}
+
+.cart-icon {
+    width: 2em; 
+    height: 2em; 
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#add-to-cart-btn {
+    margin-right: 10px; 
+}
+
+
+.button-container {
+    display: flex;
+    justify-content: space-between; 
+}
+
+.white-text {
+    color: white;
+}
+
+.logo {
+    width: 50px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: auto; /* Align the logo to the left */
+    margin-left: auto; /* Align the logo to the right */
+}
+
+  
 
