@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Library{% endblock %}
+
+<!-- assumes you have access to the user's purchased games through the current_user --> 
+{% block content %}
+<div class="container">
+    <h1 class="white-text">Your Library</h1>
+    <div class="row">
+        {% if current_user.is_authenticated %}
+            {% if current_user.games %}
+                {% for game in current_user.games %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card custom-card">
+                            <img src="../{{ game.image.split('website/')[-1] }}" class="card-img-top" alt="{{ game.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title white-text">{{ game.title }}</h5>
+                                <p class="card-text white-text">{{ game.description }}</p>
+                                <p class="card-text white-text">Price: ${{ game.price }}</p>
+                                <div class="button-container">
+                                    <a href="{{ url_for('views.gameinfo', game_title=game.title) }}" class="btn btn-primary mr-2">View Details</a>
+                                    <a href="../{{ game.data.split('website/')[-1] }}" class="btn btn-success white-text" download>Download</a>
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="white-text">Your library is empty. Start exploring and adding games!</p>
+            {% endif %}
+        {% else %}
+            <p class="white-text">Please log in to view your library.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

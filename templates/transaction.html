@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Transaction History{% endblock %}
+
+<!-- assumes you have access to the user's purchased games through the current_user --> 
+{% block content %}
+<div class="container">
+    <h1>Transaction History</h1>
+    <div class="row">
+        {% if current_user.is_authenticated %}
+            {% if current_user.orders %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="white-text">Date Purchased</th>
+                            <th class="white-text">Game Title</th>
+                            <th class="white-text">Price</th>
+                            <th class="white-text">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in current_user.orders %}
+                            {% for game in order.games %}
+                                <tr>
+                                    <td class="white-text">{{ order.date_purchased }}</td>
+                                    <td class="white-text">{{ game.title }}</td>
+                                    <td class="white-text">${{ game.price }}</td>
+                                    <td class="white-text">{% if order.status %}Purchased{% else %}Not Purchased{% endif %}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No transaction history found.</p>
+            {% endif %}
+        {% else %}
+            <p>Please log in to view your transaction history.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

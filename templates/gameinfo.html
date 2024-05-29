@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Game Information - {{ game.title }}{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>{{ game.title }}</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="../{{ game.image.split('website/')[-1] }}" class="card-img-top" alt="{{ game.image.split('website/')[-1] }}">
+        </div>
+        <div class="col-md-6">
+            <p><strong>Description:</strong> {{ game.description }}</p>
+            <p><strong>Price:</strong> ${{ game.price }}</p>
+            <p><strong>Developer:</strong> {{ game.developer.devName }}</p>
+            <p><strong>Genres:</strong>
+                {% for category in game.categories %}
+                    {{ category.category }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+            {% if game.developer.donation %}
+            {% set donation_link = game.developer.donation %}
+            {% if 'http://' in donation_link or 'https://' in donation_link %}
+                {% set donation_url = donation_link %}
+            {% else %}
+                {% set donation_url = '//' + donation_link %}
+            {% endif %}
+            <p><strong>Donation Link:</strong> <a href="{{ donation_url }}" class="btn btn-info" target="_blank">Donate Now</a></p>
+        {% endif %}
+        
+            <!-- Button group to add the game to the cart and buy now -->
+            <div class="btn-group" role="group" aria-label="Add to Cart or Buy Now">
+                <!-- Add to Cart button -->
+                <form id="add-to-cart-form" action="{{ url_for('views.add_to_cart') }}" method="POST">
+                    <input type="hidden" name="game_id" value="{{ game.id }}">
+                    <button type="button" id="add-to-cart-btn" class="btn btn-success">Add to Cart</button>
+                </form>
+                <!-- Buy Now button -->
+                <form action="{{ url_for('views.add_to_cart_and_redirect') }}" method="POST">
+                    <input type="hidden" name="game_id" value="{{ game.id }}">
+                    <button type="submit" class="btn btn-primary">Buy Now</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('add-to-cart-btn').addEventListener('click', function() {
+        var form = document.getElementById('add-to-cart-form');
+        var formData = new FormData(form);
+
+        fetch(form.action, {
+            method: form.method,
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert(data.message);  // Show success message as alert
+            } else {
+                alert(data.message);  // Show failure message as alert
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+{% endblock %}
